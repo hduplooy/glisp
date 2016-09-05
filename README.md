@@ -194,13 +194,13 @@ When anything in the deep cloned list structure is changed the original is not c
 ### Car(val interface{}) interface{}
 Car returns the Car value of a Node else nil if it is not a Node.  
 For example:  
-lst1 := List("a","b","c")
+lst1 := List("a","b","c")  
 lst2 := Car(lst1) // Returns "a"
 
 ### Cdr(val interface{}) interface{}
 Cdr returns the Cdr value of a Node else nil if it is not a Node.  
 For example:  
-lst1 := List("a","b","c")
+lst1 := List("a","b","c")  
 lst2 := Cdr(lst1) // Returns ("b" "c")
 
 ### Nth(lst interface{}, n int) interface{}
