@@ -291,13 +291,13 @@ fmt.Println(glisp.ToString(lst1)) // Will produce "(a b c x y z)"
 ### Map(f func([]interface{}) interface{}, lsts ...interface{}) interface{}
 Map will apply the function f to elements of lists provided and return a new list.  
 For example:  
-f := func{vals []interface{}) interface{} {  
-  if len(vals)>=2 {  
-      return glisp.Cons(vals[0],vals[1])  
-  }  
-  return nil  
-}  
-lst1 := glisp.Map(f,List("a","b","c"),List(1,2,3)) // This returns (("a" . 1) ("b" . 2) ("c" . 3))
+    f := func{vals []interface{}) interface{} {  
+      if len(vals)>=2 {  
+          return glisp.Cons(vals[0],vals[1])  
+      }  
+      return nil  
+    }  
+    lst1 := glisp.Map(f,List("a","b","c"),List(1,2,3)) // This returns (("a" . 1) ("b" . 2) ("c" . 3))
 
 ### ForEach(f func([]interface{}), lsts ...interface{})
 ForEach will apply the function f to elements of lists provided (nothing is returned)
