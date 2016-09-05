@@ -260,37 +260,42 @@ glisp.ToString(glisp.List("+",1,glisp.List("-","a",10))) will return "(+ 1 (- a 
 
 ### SetCar(lst interface{}, val interface{})
 SetCar will set the Car element if it is a Node.  
-For example:  
-lst1 := glisp.Cons("a","b")  
-glisp.SetCar(lst1,"c")  
-fmt.Println(glisp.ToString(lst1)) // Will produce "(c b)"
+For example:
+
+    lst1 := glisp.Cons("a","b")  
+    glisp.SetCar(lst1,"c")  
+    fmt.Println(glisp.ToString(lst1)) // Will produce "(c b)"
 
 ### SetCdr(lst interface{}, val interface{})
 SetCdr will set the Cdr element if it is a Node
-For example:  
-lst1 := glisp.Cons("a","b")  
-glisp.SetCdr(lst1,"c")  
-fmt.Println(glisp.ToString(lst1)) // Will produce "(a c)"
+For example:
+
+    lst1 := glisp.Cons("a","b")  
+    glisp.SetCdr(lst1,"c")  
+    fmt.Println(glisp.ToString(lst1)) // Will produce "(a c)"
 
 ### SetNth(lst interface{}, n int, val interface{}) interface{}
 SetNth will set the Car of n'th value of the list to val
-For example:  
-lst1 := glisp.List("a","b","c","d","e")  
-glisp.SetNth(lst1,2,"z")  
-fmt.Println(glisp.ToString(lst1)) // Will produce "(a b z d e)"
+For example:
+
+    lst1 := glisp.List("a","b","c","d","e")  
+    glisp.SetNth(lst1,2,"z")  
+    fmt.Println(glisp.ToString(lst1)) // Will produce "(a b z d e)"
 
 ### SetNthCdr(lst interface{}, n int, val interface{}) interface{}
 SetNthCdr will set the Cdr of n'th value of the list to val
-For example:  
-lst1 := glisp.List("a","b","c","d","e")  
-glisp.SetNthCdr(lst1,2,glisp.List("x","y","z"))  
-fmt.Println(glisp.ToString(lst1)) // Will produce "(a b c x y z)"
+For example:
+
+    lst1 := glisp.List("a","b","c","d","e")  
+    glisp.SetNthCdr(lst1,2,glisp.List("x","y","z"))  
+    fmt.Println(glisp.ToString(lst1)) // Will produce "(a b c x y z)"
 
 ## Utility functions
 
 ### Map(f func([]interface{}) interface{}, lsts ...interface{}) interface{}
 Map will apply the function f to elements of lists provided and return a new list.  
-For example:  
+For example:
+
     f := func{vals []interface{}) interface{} {  
       if len(vals)>=2 {  
           return glisp.Cons(vals[0],vals[1])  
@@ -300,16 +305,37 @@ For example:
     lst1 := glisp.Map(f,List("a","b","c"),List(1,2,3)) // This returns (("a" . 1) ("b" . 2) ("c" . 3))
 
 ### ForEach(f func([]interface{}), lsts ...interface{})
-ForEach will apply the function f to elements of lists provided (nothing is returned)
+ForEach will apply the function f to elements of lists provided (nothing is returned).  
 For example:
-ForEach(f2,lst1,lst2,lst3) will apply f2 to the first elements of lst1 to lst3 and then the
-  second elements etc.
+
+    f := func{vals []interface{}) {  
+      if len(vals)>=2 {
+          fmt.Printf("%v - %v\n",vals[0],vals[1])
+      }  
+    }  
+    glisp.ForEach(f,List("a","b","c"),List(1,2,3)) 
+    // This will output:
+    // a - 1
+    // b - 2
+    // c - 3
 
 ### Filter(f func(interface{}) bool, lst interface{}) interface{}
-Filter will use function f to select which elements to return in a new list
+Filter will use function f to select which elements to return in a new list. 
+For example:
+
+    f := func{val interface{}) bool {  
+        return glisp.IsNumber(val)
+    }  
+    lst1 := glisp.Filter(f,List("a",5,"b","c",1,"z",2,3)) // This returns (5 1 2 3)
 
 ### Delete(f func(interface{}) bool, lst interface{}) interface{}
-Delete will use function f to select which elements not to return in a new list
+Delete will use function f to select which elements not to return in a new list. 
+For example:
+
+    f := func{val interface{}) bool {  
+        return glisp.IsNumber(val)
+    }  
+    lst1 := glisp.Delete(f,List("a",5,"b","c",1,"z",2,3)) // This returns ("a" "b" "c" "z")
 
 ### Member(f func(interface{}) bool, lst interface{}) interface{}
 Member will use f to return the first Node for which f returns true on its Car
