@@ -204,30 +204,47 @@ lst1 := List("a","b","c")
 lst2 := Cdr(lst1) // Returns ("b" "c")
 
 ### Nth(lst interface{}, n int) interface{}
-Nth will return the n'th value in the list else nil
+Nth will return the n'th value in the list else nil.  
+For example:  
+Nth(List("a","b","c","d"),2) will return "c"
 
 ### NthCdr(lst interface{}, n int) interface{}
-NthCdr will return the n'th applcation of Cdr on the list
+NthCdr will return the n'th applcation of Cdr on the list.  
+For example:  
+NthCdr(List("a","b","c","d"),2) will return ("d")
 
 ### Head(lst interface{}, n int) interface{}
-Head returns the first n elements of a list else nil if it is not a node or too short
+Head returns the first n elements of a list else nil if it is not a node or too short.  
+For example:
+Head(List("a","b","c","d"),2) will return ("a" "b")
 
 ### Tail(lst interface{}, n int) interface{}
-Tail will return the last n elements in the list
+Tail will return the last n elements in the list.  
+For example:  
+Tail(List("a","b","c","d"),2) will return ("c" "d")
 
 ### LastPair(lst interface{}) interface{}
-LastPair returns the very last Node in the list
+LastPair returns the very last Node in the list.  
+For example:
+* LastPair(List("a","b","c","d")) will return ("d")
+* LastPair(List("a","b","c",Cons("d","e"))) will return ("d". "e")
 
 ### Sublist(lst interface{}, start, items int) interface{}
-Sublist returns part of the list from the start position for items number of elements
+Sublist returns part of the list from the start position for items number of elements.  
+For example:  
+Sublist(List("a","b","c","d"),1,2) will return ("b" "c")
 
 ### Length(lst interface{}) int
-Length returns the number of elements in the list
+Length returns the number of elements in the list.  
+For example:  
+Length(List("a","b","c","d")) will return 4
 
 ## Conversion functions
 
 ### Reverse(lst interface{}) interface{}
-Reverse returns a list in reverse order
+Reverse returns a list in reverse order.  
+For example:  
+Reverse(List("a","b","c","d")) will return ("d" "c" "b" "a")
 
 ### ToSlice(lst interface{}) []interface{}
 ToSlice will convert a list to a slice
