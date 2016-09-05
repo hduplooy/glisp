@@ -159,16 +159,14 @@ IsBool is a help function to check if val is a bool
 
 ### MakeList(n int, val interface{}) interface{}
 MakeList will generate a list of n elements with each element being val. 
-
-For example MakeList(5,"a") will return ("a" "a" "a" "a" "a")
+  For example MakeList(5,"a") will return ("a" "a" "a" "a" "a")
 
 ### Cons(val1, val2 interface{}) interface{}
 Cons just creates a new node with Car=val1 and Cdr=val2
 
-For example:
-
-Cons(4,nil) will return (4)
-Cons("a",4) will return ("a" . 4)
+  For example:
+  Cons(4,nil) will return (4)
+  Cons("a",4) will return ("a" . 4)
 
 ### List(vals ...interface{}) interface{}
 List creates a list from the slice of vals
