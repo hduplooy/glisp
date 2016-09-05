@@ -6,6 +6,8 @@ Any values can be used as elements in the lists. Thus you can use your own struc
 
 The functions all use interface{} and return interface{} values, this makes it just easier seeing that we can make use of any types.
 
+Currently there is no scanner to convert a string to a list and also no evaluator.
+
 A basic example of what can be done is:
 
 	package main
