@@ -164,8 +164,8 @@ For example MakeList(5,"a") will return ("a" "a" "a" "a" "a")
 ### Cons(val1, val2 interface{}) interface{}
 Cons just creates a new node with Car=val1 and Cdr=val2  
 For example:  
-Cons(4,nil) will return (4)  
-Cons("a",4) will return ("a" . 4)
+  Cons(4,nil) will return (4)  
+  Cons("a",4) will return ("a" . 4)
 
 ### List(vals ...interface{}) interface{}
 List creates a list from the slice of vals
