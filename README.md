@@ -159,24 +159,24 @@ IsBool is a help function to check if val is a bool
 
 ### MakeList(n int, val interface{}) interface{}
 MakeList will generate a list of n elements with each element being val.  
-For example MakeList(5,"a") will return ("a" "a" "a" "a" "a")
+For example glisp.MakeList(5,"a") will return ("a" "a" "a" "a" "a")
 
 ### Cons(val1, val2 interface{}) interface{}
 Cons just creates a new node with Car=val1 and Cdr=val2  
 For example:  
-* Cons(4,nil) will return (4)
-* Cons("a",4) will return ("a" . 4)
+* glisp.Cons(4,nil) will return (4)
+* glisp.Cons("a",4) will return ("a" . 4)
 
 ### List(vals ...interface{}) interface{}
 List creates a list from the slice of vals  
 For example:
-* List(1,2,3,4) will return (1 2 3 4)
-* List("+",1,List("-","a",10)) will return ("+" 1 ("-" "a" 10))
+* glisp.List(1,2,3,4) will return (1 2 3 4)
+* glisp.List("+",1,glisp.List("-","a",10)) will return ("+" 1 ("-" "a" 10))
 
 ### Append(lsts ...interface{}) interface{}
 Append will concatenate lists together and return a new list.  
 For example:
-* Append(List("a","b","c"),List(1,2,3)) returns (("a" "b" "c") (1 2 3))
+* glisp.Append(glisp.List("a","b","c"),glisp.List(1,2,3)) returns (("a" "b" "c") (1 2 3))
 
 ### CloneNode(lst interface{}) interface{}
 CloneNode create a new Node with the same Car and Cdr values
@@ -194,85 +194,110 @@ When anything in the deep cloned list structure is changed the original is not c
 ### Car(val interface{}) interface{}
 Car returns the Car value of a Node else nil if it is not a Node.  
 For example:  
-lst1 := List("a","b","c")  
-lst2 := Car(lst1) // Returns "a"
+lst1 := glisp.List("a","b","c")  
+lst2 := glisp.Car(lst1) // Returns "a"
 
 ### Cdr(val interface{}) interface{}
 Cdr returns the Cdr value of a Node else nil if it is not a Node.  
 For example:  
-lst1 := List("a","b","c")  
-lst2 := Cdr(lst1) // Returns ("b" "c")
+lst1 := glisp.List("a","b","c")  
+lst2 := glisp.Cdr(lst1) // Returns ("b" "c")
 
 ### Nth(lst interface{}, n int) interface{}
 Nth will return the n'th value in the list else nil.  
 For example:  
-Nth(List("a","b","c","d"),2) will return "c"
+glisp.Nth(glisp.List("a","b","c","d"),2) will return "c"
 
 ### NthCdr(lst interface{}, n int) interface{}
 NthCdr will return the n'th applcation of Cdr on the list.  
 For example:  
-NthCdr(List("a","b","c","d"),2) will return ("d")
+glisp.NthCdr(glisp.List("a","b","c","d"),2) will return ("d")
 
 ### Head(lst interface{}, n int) interface{}
 Head returns the first n elements of a list else nil if it is not a node or too short.  
 For example:
-Head(List("a","b","c","d"),2) will return ("a" "b")
+glisp.Head(glisp.List("a","b","c","d"),2) will return ("a" "b")
 
 ### Tail(lst interface{}, n int) interface{}
 Tail will return the last n elements in the list.  
 For example:  
-Tail(List("a","b","c","d"),2) will return ("c" "d")
+glisp.Tail(glisp.List("a","b","c","d"),2) will return ("c" "d")
 
 ### LastPair(lst interface{}) interface{}
 LastPair returns the very last Node in the list.  
 For example:
-* LastPair(List("a","b","c","d")) will return ("d")
-* LastPair(List("a","b","c",Cons("d","e"))) will return ("d". "e")
+* glisp.LastPair(glisp.List("a","b","c","d")) will return ("d")
+* glisp.LastPair(glisp.List("a","b","c",glisp.Cons("d","e"))) will return ("d". "e")
 
 ### Sublist(lst interface{}, start, items int) interface{}
 Sublist returns part of the list from the start position for items number of elements.  
 For example:  
-Sublist(List("a","b","c","d"),1,2) will return ("b" "c")
+glisp.Sublist(glisp.List("a","b","c","d"),1,2) will return ("b" "c")
 
 ### Length(lst interface{}) int
 Length returns the number of elements in the list.  
 For example:  
-Length(List("a","b","c","d")) will return 4
+glisp.Length(glisp.List("a","b","c","d")) will return 4
 
 ## Conversion functions
 
 ### Reverse(lst interface{}) interface{}
 Reverse returns a list in reverse order.  
 For example:  
-Reverse(List("a","b","c","d")) will return ("d" "c" "b" "a")
+glisp.Reverse(glisp.List("a","b","c","d")) will return ("d" "c" "b" "a")
 
 ### ToSlice(lst interface{}) []interface{}
-ToSlice will convert a list to a slice
+ToSlice will convert a list to a slice.  
+For example:  
+glisp.ToSlice(glisp.List("a","b","c","d")) will return []interface{}{"a","b","c","d"}
 
 ### ToString(lst interface{}) string
-ToString will convert the list to a string representation of the list
+ToString will convert the list to a string representation of the list.  
+For example:  
+glisp.ToString(glisp.List("+",1,glisp.List("-","a",10))) will return "(+ 1 (- a 10))"
 
 ## Modifier functions
 
 ### SetCar(lst interface{}, val interface{})
-SetCar will set the Car element if it is a Node
+SetCar will set the Car element if it is a Node.  
+For example:  
+lst1 := glisp.Cons("a","b")  
+glisp.SetCar(lst1,"c")  
+fmt.Println(glisp.ToString(lst1)) // Will produce "(c b)"
 
 ### SetCdr(lst interface{}, val interface{})
 SetCdr will set the Cdr element if it is a Node
+For example:  
+lst1 := glisp.Cons("a","b")  
+glisp.SetCdr(lst1,"c")  
+fmt.Println(glisp.ToString(lst1)) // Will produce "(a c)"
 
 ### SetNth(lst interface{}, n int, val interface{}) interface{}
 SetNth will set the Car of n'th value of the list to val
+For example:  
+lst1 := glisp.List("a","b","c","d","e")  
+glisp.SetNth(lst1,2,"z")  
+fmt.Println(glisp.ToString(lst1)) // Will produce "(a b z d e)"
 
 ### SetNthCdr(lst interface{}, n int, val interface{}) interface{}
 SetNthCdr will set the Cdr of n'th value of the list to val
+For example:  
+lst1 := glisp.List("a","b","c","d","e")  
+glisp.SetNthCdr(lst1,2,glisp.List("x","y","z"))  
+fmt.Println(glisp.ToString(lst1)) // Will produce "(a b c x y z)"
 
 ## Utility functions
 
 ### Map(f func([]interface{}) interface{}, lsts ...interface{}) interface{}
-Map will apply the function f to elements of lists provided and return a new list
-For example:
-Map(f2,lst1,lst2,lst3) will apply f2 to the first elements of lst1 to lst3 and then the
-  second elements etc. and from the results create a new list
+Map will apply the function f to elements of lists provided and return a new list.  
+For example:  
+f := func{vals []interface{}) interface{} {
+  if len(vals)>=2 {
+      return glisp.Cons(vals[0],vals[1])
+  }
+  return nil
+}
+lst1 := glisp.Map(f,List("a","b","c"),List(1,2,3)) // This returns (("a" . 1) ("b" . 2) ("c" . 3))
 
 ### ForEach(f func([]interface{}), lsts ...interface{})
 ForEach will apply the function f to elements of lists provided (nothing is returned)
