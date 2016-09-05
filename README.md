@@ -91,3 +91,180 @@ This will return the following:
 
 ## API
 
+## Checking helper functions
+
+### IsNode(val interface{}) bool
+IsNode checks if val is a Node
+
+### func IsNil(val interface{}) bool
+IsNil is a helper function to check if val is nil
+
+### func IsString(val interface{}) bool
+IsString is a helper function to check if val is a string
+
+### IsInt(val interface{}) bool
+IsInt is a help function to check if val is an int
+
+### IsInt8(val interface{}) bool
+IsInt8 is a help function to check if val is an int8
+
+### IsInt16(val interface{}) bool
+IsInt16 is a help function to check if val is an int16
+
+### IsInt32(val interface{}) bool
+IsInt32 is a help function to check if val is an int32
+
+### IsInt64(val interface{}) bool
+IsInt64 is a help function to check if val is an int64
+
+### IsUint(val interface{}) bool
+IsUint is a help function to check if val is an uint
+
+### IsUint8(val interface{}) bool
+IsUint8 is a help function to check if val is an uint8
+
+### IsUint16(val interface{}) bool
+IsUint16 is a help function to check if val is an uint16
+
+### IsUint32(val interface{}) bool
+IsUint32 is a help function to check if val is an uint32
+
+### IsUint64(val interface{}) bool
+IsUint64 is a help function to check if val is an uint64
+
+### IsByte(val interface{}) bool
+IsByte is a help function to check if val is a byte
+
+### IsFloat64(val interface{}) bool
+IsFloat64 is a help function to check if val is a float64
+
+### IsFloat32(val interface{}) bool
+IsFloat32 is a help function to check if val is a float32
+
+### IsComplex64(val interface{}) bool
+IsComplex64 is a help function to check if val is a complex64
+
+### IsComplex128(val interface{}) bool
+IsComplex128 is a help function to check if val is a complex128
+
+### IsNumber(val interface{}) bool
+IsNumber is a help function to check if val is any of the numeric types
+
+### IsBool(val interface{}) bool
+IsBool is a help function to check if val is a bool
+
+## Creation functions
+
+### MakeList(n int, val interface{}) interface{}
+MakeList will generate a list of n elements with each element being val
+
+### Cons(val1, val2 interface{}) interface{}
+Cons just creates a new node with Car=val1 and Cdr=val2
+
+### List(vals ...interface{}) interface{}
+List creates a list from the slice of vals
+
+### Append(lsts ...interface{}) interface{}
+Append will concatenate lists together and return a new list
+for eq. Append on '(a b c) '(1 2 3) becomes '(a b c 1 2 3)
+
+### CloneNode(lst interface{}) interface{}
+CloneNode create a new Node with the same Car and Cdr values
+
+### Clone(lst interface{}) interface{}
+Clone will create a new list at the top level for deep cloning look at DeepClone
+When a cloned list is changed the original will not be changed
+
+### DeepClone(lst interface{}) interface{}
+DeepClone will create a new list, but for each value that is also a list it will be also cloned
+When anything in the deep cloned list structure is changed the original is not changed
+
+## Extraction functions
+
+### Car(val interface{}) interface{}
+Car returns the Car value of a Node else nil if it is not a Node
+
+### Cdr(val interface{}) interface{}
+Cdr returns the Cdr value of a Node else nil if it is not a Node
+
+### Nth(lst interface{}, n int) interface{}
+Nth will return the n'th value in the list else nil
+
+### NthCdr(lst interface{}, n int) interface{}
+NthCdr will return the n'th applcation of Cdr on the list
+
+### Head(lst interface{}, n int) interface{}
+Head returns the first n elements of a list else nil if it is not a node or too short
+
+### Tail(lst interface{}, n int) interface{}
+Tail will return the last n elements in the list
+
+### LastPair(lst interface{}) interface{}
+LastPair returns the very last Node in the list
+
+### Sublist(lst interface{}, start, items int) interface{}
+Sublist returns part of the list from the start position for items number of elements
+
+### Length(lst interface{}) int
+Length returns the number of elements in the list
+
+## Conversion functions
+
+### Reverse(lst interface{}) interface{}
+Reverse returns a list in reverse order
+
+### ToSlice(lst interface{}) []interface{}
+ToSlice will convert a list to a slice
+
+### ToString(lst interface{}) string
+ToString will convert the list to a string representation of the list
+
+## Modifier functions
+
+### SetCar(lst interface{}, val interface{})
+SetCar will set the Car element if it is a Node
+
+### SetCdr(lst interface{}, val interface{})
+SetCdr will set the Cdr element if it is a Node
+
+### SetNth(lst interface{}, n int, val interface{}) interface{}
+SetNth will set the Car of n'th value of the list to val
+
+### SetNthCdr(lst interface{}, n int, val interface{}) interface{}
+SetNthCdr will set the Cdr of n'th value of the list to val
+
+## Utility functions
+
+### Map(f func([]interface{}) interface{}, lsts ...interface{}) interface{}
+Map will apply the function f to elements of lists provided and return a new list
+For example:
+Map(f2,lst1,lst2,lst3) will apply f2 to the first elements of lst1 to lst3 and then the
+  second elements etc. and from the results create a new list
+
+### ForEach(f func([]interface{}), lsts ...interface{})
+ForEach will apply the function f to elements of lists provided (nothing is returned)
+For example:
+ForEach(f2,lst1,lst2,lst3) will apply f2 to the first elements of lst1 to lst3 and then the
+  second elements etc.
+
+### Filter(f func(interface{}) bool, lst interface{}) interface{}
+Filter will use function f to select which elements to return in a new list
+
+### Delete(f func(interface{}) bool, lst interface{}) interface{}
+Delete will use function f to select which elements not to return in a new list
+
+### Member(f func(interface{}) bool, lst interface{}) interface{}
+Member will use f to return the first Node for which f returns true on its Car
+
+### Fold(f func(interface{}, interface{}) interface{}, lst1, lst2 interface{}) interface{}
+Fold will apply f on each of the elements of lst to lst
+   this is the same as f(Nth(n),...f(Car(Car(n)),f(Car(n),lst))) ....)
+
+## Association lists
+
+### Acons(val1, val2, lst interface{}) interface{}
+Acons will cons val1 and val2 together and add that to the front of lst for a Association list
+
+### Assoc(f func(interface{}) bool, lst interface{}) interface{}
+Assoc will search for the first element where the Car of that element will return true when f is applied
+
