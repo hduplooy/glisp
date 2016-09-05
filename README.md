@@ -164,34 +164,44 @@ For example MakeList(5,"a") will return ("a" "a" "a" "a" "a")
 ### Cons(val1, val2 interface{}) interface{}
 Cons just creates a new node with Car=val1 and Cdr=val2  
 For example:  
-  Cons(4,nil) will return (4)  
-  Cons("a",4) will return ("a" . 4)
+* Cons(4,nil) will return (4)
+* Cons("a",4) will return ("a" . 4)
 
 ### List(vals ...interface{}) interface{}
-List creates a list from the slice of vals
+List creates a list from the slice of vals  
+For example:
+* List(1,2,3,4) will return (1 2 3 4)
+* List("+",1,List("-","a",10)) will return ("+" 1 ("-" "a" 10))
 
 ### Append(lsts ...interface{}) interface{}
-Append will concatenate lists together and return a new list
-for eq. Append on '(a b c) '(1 2 3) becomes '(a b c 1 2 3)
+Append will concatenate lists together and return a new list.  
+For example:
+* Append(List("a","b","c"),List(1,2,3)) returns (("a" "b" "c") (1 2 3))
 
 ### CloneNode(lst interface{}) interface{}
 CloneNode create a new Node with the same Car and Cdr values
 
 ### Clone(lst interface{}) interface{}
-Clone will create a new list at the top level for deep cloning look at DeepClone
+Clone will create a new list at the top level for deep cloning look at DeepClone.  
 When a cloned list is changed the original will not be changed
 
 ### DeepClone(lst interface{}) interface{}
-DeepClone will create a new list, but for each value that is also a list it will be also cloned
+DeepClone will create a new list, but for each value that is also a list it will be also cloned.  
 When anything in the deep cloned list structure is changed the original is not changed
 
 ## Extraction functions
 
 ### Car(val interface{}) interface{}
-Car returns the Car value of a Node else nil if it is not a Node
+Car returns the Car value of a Node else nil if it is not a Node.  
+For example:  
+lst1 := List("a","b","c")
+lst2 := Car(lst1) // Returns "a"
 
 ### Cdr(val interface{}) interface{}
-Cdr returns the Cdr value of a Node else nil if it is not a Node
+Cdr returns the Cdr value of a Node else nil if it is not a Node.  
+For example:  
+lst1 := List("a","b","c")
+lst2 := Cdr(lst1) // Returns ("b" "c")
 
 ### Nth(lst interface{}, n int) interface{}
 Nth will return the n'th value in the list else nil
