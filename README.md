@@ -193,35 +193,41 @@ When anything in the deep cloned list structure is changed the original is not c
 
 ### Car(val interface{}) interface{}
 Car returns the Car value of a Node else nil if it is not a Node.  
-For example:  
-lst1 := glisp.List("a","b","c")  
-lst2 := glisp.Car(lst1) // Returns "a"
+For example:
+
+    lst1 := glisp.List("a","b","c")  
+    lst2 := glisp.Car(lst1) // Returns "a"
 
 ### Cdr(val interface{}) interface{}
 Cdr returns the Cdr value of a Node else nil if it is not a Node.  
-For example:  
-lst1 := glisp.List("a","b","c")  
-lst2 := glisp.Cdr(lst1) // Returns ("b" "c")
+For example:
+
+    lst1 := glisp.List("a","b","c")  
+    lst2 := glisp.Cdr(lst1) // Returns ("b" "c")
 
 ### Nth(lst interface{}, n int) interface{}
 Nth will return the n'th value in the list else nil.  
-For example:  
-glisp.Nth(glisp.List("a","b","c","d"),2) will return "c"
+For example:
+
+    glisp.Nth(glisp.List("a","b","c","d"),2) // will return "c"
 
 ### NthCdr(lst interface{}, n int) interface{}
 NthCdr will return the n'th applcation of Cdr on the list.  
 For example:  
-glisp.NthCdr(glisp.List("a","b","c","d"),2) will return ("d")
+
+    glisp.NthCdr(glisp.List("a","b","c","d"),2) // will return ("d")
 
 ### Head(lst interface{}, n int) interface{}
 Head returns the first n elements of a list else nil if it is not a node or too short.  
 For example:
-glisp.Head(glisp.List("a","b","c","d"),2) will return ("a" "b")
+
+    glisp.Head(glisp.List("a","b","c","d"),2) // will return ("a" "b")
 
 ### Tail(lst interface{}, n int) interface{}
 Tail will return the last n elements in the list.  
 For example:  
-glisp.Tail(glisp.List("a","b","c","d"),2) will return ("c" "d")
+
+    glisp.Tail(glisp.List("a","b","c","d"),2) // will return ("c" "d")
 
 ### LastPair(lst interface{}) interface{}
 LastPair returns the very last Node in the list.  
@@ -232,7 +238,8 @@ For example:
 ### Sublist(lst interface{}, start, items int) interface{}
 Sublist returns part of the list from the start position for items number of elements.  
 For example:  
-glisp.Sublist(glisp.List("a","b","c","d"),1,2) will return ("b" "c")
+
+    glisp.Sublist(glisp.List("a","b","c","d"),1,2) // will return ("b" "c")
 
 ### Length(lst interface{}) int
 Length returns the number of elements in the list.  
@@ -244,12 +251,14 @@ glisp.Length(glisp.List("a","b","c","d")) will return 4
 ### Reverse(lst interface{}) interface{}
 Reverse returns a list in reverse order.  
 For example:  
-glisp.Reverse(glisp.List("a","b","c","d")) will return ("d" "c" "b" "a")
+
+    glisp.Reverse(glisp.List("a","b","c","d")) // will return ("d" "c" "b" "a")
 
 ### ToSlice(lst interface{}) []interface{}
 ToSlice will convert a list to a slice.  
 For example:  
-glisp.ToSlice(glisp.List("a","b","c","d")) will return []interface{}{"a","b","c","d"}
+
+    glisp.ToSlice(glisp.List("a","b","c","d")) //will return []interface{}{"a","b","c","d"}
 
 ### ToString(lst interface{}) string
 ToString will convert the list to a string representation of the list.  
@@ -302,7 +311,7 @@ For example:
       }  
       return nil  
     }  
-    lst1 := glisp.Map(f,List("a","b","c"),List(1,2,3)) // This returns (("a" . 1) ("b" . 2) ("c" . 3))
+    lst1 := glisp.Map(f,glisp.List("a","b","c"),glisp.List(1,2,3)) // This returns (("a" . 1) ("b" . 2) ("c" . 3))
 
 ### ForEach(f func([]interface{}), lsts ...interface{})
 ForEach will apply the function f to elements of lists provided (nothing is returned).  
@@ -313,7 +322,7 @@ For example:
           fmt.Printf("%v - %v\n",vals[0],vals[1])
       }  
     }  
-    glisp.ForEach(f,List("a","b","c"),List(1,2,3)) 
+    glisp.ForEach(f,glisp.List("a","b","c"),glisp.List(1,2,3)) 
     // This will output:
     // a - 1
     // b - 2
@@ -326,7 +335,7 @@ For example:
     f := func{val interface{}) bool {  
         return glisp.IsNumber(val)
     }  
-    lst1 := glisp.Filter(f,List("a",5,"b","c",1,"z",2,3)) // This returns (5 1 2 3)
+    lst1 := glisp.Filter(f,glisp.List("a",5,"b","c",1,"z",2,3)) // This returns (5 1 2 3)
 
 ### Delete(f func(interface{}) bool, lst interface{}) interface{}
 Delete will use function f to select which elements not to return in a new list. 
@@ -335,20 +344,55 @@ For example:
     f := func{val interface{}) bool {  
         return glisp.IsNumber(val)
     }  
-    lst1 := glisp.Delete(f,List("a",5,"b","c",1,"z",2,3)) // This returns ("a" "b" "c" "z")
+    lst1 := glisp.Delete(f,glisp.List("a",5,"b","c",1,"z",2,3)) // This returns ("a" "b" "c" "z")
 
 ### Member(f func(interface{}) bool, lst interface{}) interface{}
-Member will use f to return the first Node for which f returns true on its Car
+Member will use f to return the first Node for which f returns true on its Car.  
+For example:
+
+    f := func(val interface{}) bool {
+        return glisp.IsString(val) && val.(string) == "c"
+    }
+    lst1 := glisp.List("a","b","c","d","e")
+    fmt.Println(glisp.ToString(glisp.Member(f,lst1))) // This prints "(c d e)"
 
 ### Fold(f func(interface{}, interface{}) interface{}, lst1, lst2 interface{}) interface{}
-Fold will apply f on each of the elements of lst to lst
-   this is the same as f(Nth(n),...f(Car(Car(n)),f(Car(n),lst))) ....)
+Fold will apply f to the first element of lst1 and all of lst2 and the result will then be used to apply f to the second value of lst1 and the returned value, etc.  
+This is the same as f(Nth(n),...f(Car(Car(n)),f(Car(n),lst))) ....)  
+For example:  
+
+    f := func(val1, val2 interface{}) interface{} {
+        if glisp.IsInt(val1) && glisp.IsInt(val2) {
+            return val1.(int) + val2.(int) // Just return the sum of the two arguments
+        }
+        return 0
+    }
+    lst1 := glisp.List(1,2,3,4,5)
+    fmt.Println(ToString(glisp.Fold(f,lst1,0))) // This will output 15
+    // Fold will first call f(1,0)  where 0 was provided by the call to fold
+    //  this produces 1 because 1+0 = 1
+    // Now Fold calls f(2,1) where 1 was returned in the previous step
+    //  this produces 3 because 2+1 = 3
+    // Now Fold calls f(3,3) which produces 6
+    // Then Fold calls f(4,6) which produces 10
+    // And lastly Fold calls f(5,10) which returns 15
 
 ## Association lists
 
 ### Acons(val1, val2, lst interface{}) interface{}
-Acons will cons val1 and val2 together and add that to the front of lst for a Association list
+Acons will cons val1 and val2 together and add that to the front of lst for a Association list.  
+For example:  
+
+    // Let's assume lst1 holds the list (("a" . 1) ("b" . 2))
+    lst1 = glisp.Acons("c",3,lst1) // Now lst1 holds (("c" . 3) ("a" . 1) ("b" . 2))
 
 ### Assoc(f func(interface{}) bool, lst interface{}) interface{}
-Assoc will search for the first element where the Car of that element will return true when f is applied
+Assoc will search for the first element where the Car of that element will return true when f is applied.
+For example:
 
+    // Let's assum lst1 holds the list (("a" . 1) ("b" . 2) ("c" . 3) ("d" . 4))
+    f := func(val interface{}) bool {
+        return IsString(val) && val.(string)=="b"
+    }
+    fmt.Println(glisp.Assoc(f,lst1)) // This will print "(b 2)"
+    
