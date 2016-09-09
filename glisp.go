@@ -1,6 +1,7 @@
 // github.com/hduplooy/glisp
 // Author: Hannes du Plooy
 // Revision date: 5 Sep 2016
+// Revision date: 9 Sep 2016 - Equal implemented
 // Lisp like functionality in golang
 // interface{} is used as lists/elements etc. This make it easy to use anything in the lists
 // Most of the basic functionality is provided (no scanner or evaluator as yet)
@@ -9,6 +10,7 @@ package glisp
 
 import (
 	"fmt"
+	"reflect"
 )
 
 // Node is the way that lists are made up with
@@ -659,4 +661,52 @@ func Fold(f func(interface{}, interface{}) interface{}, lst1, lst2 interface{}) 
 		lst1 = Cdr(lst1)
 	}
 	return lst2
+}
+
+// equalmap hold all registered custom equal functions for specified types
+var equalmap = make(map[string]func(interface{}, interface{}) bool)
+
+// RegisterEq will save the func that will handle equal calls for the specified val type
+func RegisterEq(val interface{}, f func(interface{}, interface{}) bool) {
+	tp := reflect.TypeOf(val).String()
+	equalmap[tp] = f
+}
+
+// DeRegisterEq will remove a previously custom equal func for the val type provided
+func DeRegisterEq(val interface{}) {
+	tp := reflect.TypeOf(val).String()
+	delete(equalmap, tp)
+}
+
+// Equal determines if two provided values are equal
+// If they are nodes then they must be element wise equal (recursive)
+// else they must be DeepEqual according to reflect.DeepEqual
+func Equal(lst1, lst2 interface{}) bool {
+	// Get string names of types of values
+	tp1 := reflect.TypeOf(lst1).String()
+	tp2 := reflect.TypeOf(lst2).String()
+	// If they are not the same type they are definitely not equal
+	if tp1 != tp2 {
+		return false
+	}
+	// Check if there is a custom equal func for it
+	eqf, ok := equalmap[tp1]
+	if ok {
+		// Use custom equal
+		return eqf(lst1, lst2)
+	}
+	if IsNode(lst1) || IsNode(lst2) {
+		// While the end of none list reached
+		for lst1 != nil && lst2 != nil {
+			// First check if the Cars of each list is Equal (recursively)
+			if !Equal(Car(lst1), Car(lst2)) {
+				return false
+			}
+			// Move to next elements in the lists
+			lst1 = Cdr(lst1)
+			lst2 = Cdr(lst2)
+		}
+	}
+	// Seeing that what is in lst1 and lst2 is not Nodes we can ask golang to check it for us
+	return reflect.DeepEqual(lst1, lst2)
 }
